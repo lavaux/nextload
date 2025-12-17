@@ -80,7 +80,8 @@ def list_content(webdav_url, share_token, share_password, share_subdir=""):
   
       req_url = f"{webdav_url}/public.php/webdav/{share_subdir}"
   #    req_url = f"{webdav_url}/public.php/dav/files/{share_token}{share_subdir}"
-      print_color(f"Listing {req_url}", 'INFO')
+      if VERBOSE:
+        print_color(f"Listing {req_url}", 'INFO')
       # Requête PROPFIND pour lister les fichiers/dossiers
       response = session.request(
           "PROPFIND",
@@ -112,13 +113,10 @@ def list_content(webdav_url, share_token, share_password, share_subdir=""):
           print(href)
           if not href.startswith("/public.php/webdav/"):
              continue
-          href = href.split("/public.php/webdav/")[1]
-  #        if not href.startswith("/public.php/dav/files/" + share_token):
-  #           continue
-  #        href = href.split("/public.php/dav/files/" + share_token + "/")[1]
-          print(f"'{href}'")
-          if len(href) == 0:
+          href = href.split("/public.php/webdav" + share_subdir)
+          if len(href) == 1 or len(href[1]) == 0:
              continue
+          href = href[1]
           if href.endswith("/"):
               folders.append(href)
           else:
@@ -283,8 +281,9 @@ def crawl_and_download(webdav_url, share_token, share_password, share_subdir, cu
     files, folders = list_content(webdav_url, share_token, share_password, share_subdir + current_folder)
 
     for file in files:
+        print(f"File is {file}")
         if should_download_file(file, include_patterns, exclude_patterns):
-            remote_path = f"/{share_subdir}/{file}" if share_subdir else f"/{file}"
+            remote_path = f"/{share_subdir}{current_folder}/{file}"
             local_path = os.path.join(local_base, os.path.basename(file))
             download_file(webdav_url, share_token, share_password, remote_path, local_path)
 
