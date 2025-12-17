@@ -11,9 +11,11 @@ click = "^8.0.0"
 requests = "^2.0.0"
 beautifulsoup4 = "^4.0.0"
 tqdm = "^4.0.0"
-lxml = "^6.0.2"
 
 [tool.poetry.group.dev.dependencies]
+
+[tool.poetry.scripts]
+nextload = "nextload:cli"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
