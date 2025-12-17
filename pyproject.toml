@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "nextload"
+version = "0.1.0"
+description = "A Nextcloud share downloader tool"
+authors = ["Your Name <your.email@example.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+click = "^8.0.0"
+requests = "^2.0.0"
+beautifulsoup4 = "^4.0.0"
+tqdm = "^4.0.0"
+lxml = "^6.0.2"
+
+[tool.poetry.group.dev.dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
