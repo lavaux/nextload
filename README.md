@@ -17,7 +17,7 @@ poetry install
 ### Using pip
 
 ```bash
-pip install click requests beautifulsoup4 tqdm
+pip install click requests beautifulsoup4 tqdm lxml
 ```
 
 ## Usage
