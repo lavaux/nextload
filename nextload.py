@@ -3,7 +3,7 @@ import base64
 import re
 import requests
 from bs4 import BeautifulSoup
-from urllib.parse import urljoin, urlparse
+from urllib.parse import urljoin, urlparse, unquote
 from tqdm import tqdm
 import click
 import fnmatch
@@ -269,6 +269,7 @@ def crawl_and_list(webdav_url, share_token, share_password, share_subdir, curren
     for file, file_size in files:
         if should_download_file(file, include_patterns, exclude_patterns):
             formatted_size = format_file_size(file_size)
+            file = unquote(file) 
             print_color(f"{indent}📄 {file} ({formatted_size})", 'INFO')
 
     for folder in folders:
@@ -284,7 +285,7 @@ def crawl_and_download(webdav_url, share_token, share_password, share_subdir, cu
         print(f"File is {file}")
         if should_download_file(file, include_patterns, exclude_patterns):
             remote_path = f"/{share_subdir}{current_folder}/{file}"
-            local_path = os.path.join(local_base, os.path.basename(file))
+            local_path = os.path.join(local_base, os.path.basename(unquote(file)))
             download_file(webdav_url, share_token, share_password, remote_path, local_path)
 
     for folder in folders:
